@@ -430,6 +430,63 @@ impl Balance {
         let (x, y) = self.to_vector();
         Self::from_vector(-y, x)
     }
+
+    /// Checks if the current position has the `Balance::Top` variant or any variant
+    /// that includes the top row in the 3x3 grid.
+    pub fn has_top(self) -> bool {
+        matches!(self, Balance::Top | Balance::TopLeft | Balance::TopRight)
+    }
+
+    /// Checks if the current position has the `Balance::Bottom` variant or any variant
+    /// that includes the bottom row in the 3x3 grid.
+    pub fn has_bottom(self) -> bool {
+        matches!(
+            self,
+            Balance::Bottom | Balance::BottomLeft | Balance::BottomRight
+        )
+    }
+
+    /// Checks if the current position has the `Balance::Bottom` variant or any variant
+    /// that includes the bottom row in the 3x3 grid.
+    pub fn has_left(self) -> bool {
+        matches!(self, Balance::Left | Balance::TopLeft | Balance::BottomLeft)
+    }
+
+    /// Checks if the current position has the `Balance::Left` variant or any variant
+    /// that includes the left column in the 3x3 grid.
+    pub fn has_right(self) -> bool {
+        matches!(
+            self,
+            Balance::Right | Balance::TopRight | Balance::BottomRight
+        )
+    }
+
+    /// Checks if the current position includes the center or any direct neighbor
+    /// (top, bottom, left, or right) in the 3x3 grid.
+    pub fn has_center(self) -> bool {
+        matches!(
+            self,
+            Balance::Center | Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
+        )
+    }
+    
+    /// Determines whether the current position is one of the edge positions 
+    /// (top, bottom, left, or right) in the 3x3 grid.
+    pub fn is_edge(self) -> bool {
+        matches!(
+            self,
+            Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
+        )
+    }
+    
+    /// Checks if the current position is one of the corner positions 
+    /// (top-left, top-right, bottom-left, or bottom-right) in the 3x3 grid.
+    pub fn is_corner(self) -> bool {
+        matches!(
+            self,
+            Balance::TopLeft | Balance::TopRight | Balance::BottomLeft | Balance::BottomRight
+        )
+    }
 }
 
 impl Not for Balance {
