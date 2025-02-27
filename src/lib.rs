@@ -122,6 +122,76 @@ impl Balance {
         }
     }
 
+    /// Calculates the scalar magnitude squared for the vector representation
+    /// of the current `Balance` position within the grid.
+    ///
+    /// The scalar magnitude squared is defined as `x^2 + y^2`, where `(x, y)`
+    /// are the coordinates of the position.
+    ///
+    /// # Returns
+    ///
+    /// An `i8` value representing the scalar magnitude squared of the position.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::TopLeft;
+    /// assert_eq!(position.to_scalar(), 2);
+    ///
+    /// let center = Balance::Center;
+    /// assert_eq!(center.to_scalar(), 0);
+    /// ```
+    pub fn to_scalar(self) -> i8 {
+        let (x, y) = self.to_vector();
+        x * x + y * y
+    }
+
+    /// Returns the x-coordinate of the current `Balance` position in the 3x3 grid.
+    ///
+    /// # Returns
+    ///
+    /// An `i8` value representing the x-coordinate of the position.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::Right;
+    /// assert_eq!(position.x(), 1);
+    ///
+    /// let position = Balance::Center;
+    /// assert_eq!(position.x(), 0);
+    /// ```
+    pub fn x(self) -> i8 {
+        let (x, _) = self.to_vector();
+        x
+    }
+
+    /// Returns the y-coordinate of the current `Balance` position in the 3x3 grid.
+    ///
+    /// # Returns
+    ///
+    /// An `i8` value representing the y-coordinate of the position.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::Bottom;
+    /// assert_eq!(position.y(), 1);
+    ///
+    /// let position = Balance::Center;
+    /// assert_eq!(position.y(), 0);
+    /// ```
+    pub fn y(self) -> i8 {
+        let (_, y) = self.to_vector();
+        y
+    }
+
     /// Converts a pair of integers `(a, b)` into the corresponding `Balance` variant.
     ///
     /// # Parameters
@@ -438,8 +508,7 @@ mod ternary {
         /// assert_eq!(balance.to_ternary_pair(), (Digit::Pos, Digit::Zero));
         /// ```
         pub fn to_ternary_pair(self) -> (Digit, Digit) {
-            let (x, y) = self.to_vector();
-            (Digit::from_i8(x), Digit::from_i8(y))
+            (Digit::from_i8(self.x()), Digit::from_i8(self.y()))
         }
 
         /// Creates a `Balance` instance from a pair of ternary digits.
