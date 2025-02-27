@@ -478,7 +478,7 @@ impl Balance {
             Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
         )
     }
-    
+
     /// Checks if the current position is one of the corner positions 
     /// (top-left, top-right, bottom-left, or bottom-right) in the 3x3 grid.
     pub fn is_corner(self) -> bool {
@@ -603,8 +603,8 @@ mod ternary {
     }
 }
 
-/// Represents a sequence of movements in a 3x3 balanced grid, where each movement
-/// is represented by a `Balance` value indicating direction or position.
+/// Represents a sequence of movements in a grid, where each movement
+/// is represented by a `Balance` value indicating direction of one step.
 ///
 /// The `Path` struct provides various utilities to manipulate and analyze the sequence
 /// of movements, including iteration, transformation, normalization, and reversal.
