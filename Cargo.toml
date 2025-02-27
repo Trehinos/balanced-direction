@@ -1,0 +1,11 @@
+[package]
+name = "balanced-direction"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["ternary"]
+ternary = ["dep:balanced-ternary"]
+
+[dependencies]
+balanced-ternary = { version = "^1", optional = true, default-features = false }
