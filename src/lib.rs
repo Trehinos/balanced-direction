@@ -148,6 +148,70 @@ impl Balance {
         x * x + y * y
     }
 
+    /// Converts the current `Balance` position into its corresponding
+    /// angle in degrees in a Cartesian coordinate system.
+    ///
+    /// The angle is calculated in a counter-clockwise direction starting from
+    /// the positive x-axis, with `(-y, x)` treated as the vector
+    /// direction. The angle is returned in the range `[-180.0, 180.0]` degrees.
+    ///
+    /// # Returns
+    ///
+    /// A `f32` value representing the angle in degrees.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::Top;
+    /// assert_eq!(position.to_angle(), 90.0);
+    /// ```
+    pub fn to_angle(self) -> f32 {
+        #[allow(unused_imports)]
+        use micromath::F32Ext;
+        let (x, y) = self.to_vector();
+        let angle = (-y as f32).atan2(x as f32);
+        angle.to_degrees()
+    }
+
+    /// Constructs a `Balance` enum variant based on the given angle in degrees.
+    ///
+    /// The angle is treated in the Cartesian coordinate system, where:
+    /// - `0` degrees corresponds to `Balance::Right` (positive x-axis),
+    /// - Positive angles proceed counterclockwise, and negative angles proceed clockwise,
+    /// - The `angle` is normalized into the range `[-180.0, 180.0]` and converted into
+    ///   the nearest discrete position `(x, y)` on the 3x3 grid.
+    ///
+    /// # Parameters
+    ///
+    /// - `angle`: A `f32` value representing the angle in degrees.
+    ///
+    /// # Returns
+    ///
+    /// A `Balance` enum variant corresponding to the direction indicated by the angle.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let balance = Balance::from_angle(45.0);
+    /// assert_eq!(balance, Balance::TopRight);
+    ///
+    /// let balance = Balance::from_angle(-135.0);
+    /// assert_eq!(balance, Balance::BottomLeft);
+    /// ```
+    pub fn from_angle(angle: f32) -> Self {
+        #[allow(unused_imports)]
+        use micromath::F32Ext;
+        let angle = angle.to_radians();
+        let x = angle.cos();
+        let y = -angle.sin();
+        let (x, y) = (x.round() as i8, y.round() as i8);
+        Self::from_vector(x, y)
+    }
+
     /// Returns the x-coordinate of the current `Balance` position in the 3x3 grid.
     ///
     /// # Returns
@@ -469,8 +533,8 @@ impl Balance {
             Balance::Center | Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
         )
     }
-    
-    /// Determines whether the current position is one of the edge positions 
+
+    /// Determines whether the current position is one of the edge positions
     /// (top, bottom, left, or right) in the 3x3 grid.
     pub fn is_edge(self) -> bool {
         matches!(
@@ -479,7 +543,7 @@ impl Balance {
         )
     }
 
-    /// Checks if the current position is one of the corner positions 
+    /// Checks if the current position is one of the corner positions
     /// (top-left, top-right, bottom-left, or bottom-right) in the 3x3 grid.
     pub fn is_corner(self) -> bool {
         matches!(
@@ -604,7 +668,7 @@ mod ternary {
 }
 
 /// Represents a sequence of movements in a grid, where each movement
-/// is represented by a `Balance` value indicating direction of one step.
+/// is represented by a `Balance` value indicating the direction of one step.
 ///
 /// The `Path` struct provides various utilities to manipulate and analyze the sequence
 /// of movements, including iteration, transformation, normalization, and reversal.
