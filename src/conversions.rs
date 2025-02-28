@@ -29,12 +29,12 @@ impl Balance {
     /// use balanced_direction::Balance;
     ///
     /// let position = Balance::Center;
-    /// assert_eq!(position.value(), 0);
+    /// assert_eq!(position.to_value(), 0);
     ///
     /// let position = Balance::TopRight;
-    /// assert_eq!(position.value(), -2);
+    /// assert_eq!(position.to_value(), -2);
     /// ```
-    pub fn value(self) -> i8 {
+    pub fn to_value(self) -> i8 {
         match self {
             Balance::TopLeft => -4,
             Balance::Top => -3,
@@ -91,37 +91,6 @@ impl Balance {
             3 => Balance::Bottom,
             4 => Balance::BottomRight,
             _ => panic!("Invalid value"),
-        }
-    }
-
-    /// Converts the current `Balance` variant into a 2D vector `(i8, i8)` representing its coordinates.
-    ///
-    /// # Returns
-    ///
-    /// A tuple `(i8, i8)` representing the position in the 3x3 grid.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use balanced_direction::Balance;
-    ///
-    /// let position = Balance::TopLeft;
-    /// assert_eq!(position.to_vector(), (-1, -1));
-    ///
-    /// let center = Balance::Center;
-    /// assert_eq!(center.to_vector(), (0, 0));
-    /// ```
-    pub fn to_vector(self) -> (i8, i8) {
-        match self {
-            Balance::TopLeft => (-1, -1),
-            Balance::Top => (0, -1),
-            Balance::TopRight => (1, -1),
-            Balance::Left => (-1, 0),
-            Balance::Center => (0, 0),
-            Balance::Right => (1, 0),
-            Balance::BottomLeft => (-1, 1),
-            Balance::Bottom => (0, 1),
-            Balance::BottomRight => (1, 1),
         }
     }
 
@@ -244,6 +213,27 @@ impl Balance {
         let y = -angle.sin();
         let (x, y) = (x.round() as i8, y.round() as i8);
         Self::from_vector(x, y)
+    }
+
+    /// Converts the current `Balance` variant into a 2D vector `(i8, i8)` representing its coordinates.
+    ///
+    /// # Returns
+    ///
+    /// A tuple `(i8, i8)` representing the position in the 3x3 grid.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::TopLeft;
+    /// assert_eq!(position.to_vector(), (-1, -1));
+    ///
+    /// let center = Balance::Center;
+    /// assert_eq!(center.to_vector(), (0, 0));
+    /// ```
+    pub fn to_vector(self) -> (i8, i8) {
+        (self.x(), self.y())
     }
 
     /// Converts a pair of integers `(a, b)` into the corresponding `Balance` variant.

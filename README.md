@@ -101,16 +101,16 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 
 ##### Binary operations
 
-![binary-op-add](binary-op-add.png)
-![binary-op-mul](binary-op-mul.png)
-![binary-op-sub](binary-op-sub.png)
-![binary-op-bitand](binary-op-bitand.png)
-![binary-op-bitor](binary-op-bitor.png)
-![binary-op-bitxor](binary-op-bitxor.png)
+![img.png](binary-op-add.png)
+![img_1.png](binary-op-mul.png)
+![img_2.png](binary-op-sub.png)
+![img_3.png](binary-op-bitand.png)
+![img_4.png](binary-op-bitor.png)
+![img_5.png](binary-op-bitxor.png)
 
 ##### Unary operations
 
-![unary-ops](unary-ops.png)
+![img_6.png](unary-ops.png)
 
 ### `Path`
 
@@ -135,7 +135,7 @@ efficient representation of cumulative movement.
 
 ## Documentation
 
-The complete API documentation is available on [docs.rs](). It contains details on each type, method, and their use
+The complete API documentation is available on [docs.rs](https://docs.rs/balanced-direction). It contains details on each type, method, and their use
 cases.
 
 ## Related Libraries
@@ -145,5 +145,5 @@ cases.
 
 ## License
 
-Copyright (c) 2025 Sébastien GELDREICH    
+Copyright (c) 2025 [Sébastien GELDREICH](mailto:dev@trehinos.eu)  
 `Balanced Direction` is licensed under the [MIT License](LICENSE).
