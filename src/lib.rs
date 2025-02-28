@@ -44,8 +44,6 @@
 #![cfg_attr(not(test), no_std)]
 extern crate alloc;
 
-use core::ops::{Add, Mul, Neg, Not, Sub};
-
 /// Represents a position within a 3x3 grid, with each variant corresponding to a specific point.
 ///
 /// The `Balance` enum is used to model a balanced ternary direction or position
@@ -90,8 +88,6 @@ pub enum Balance {
 }
 
 mod conversions;
-
-mod operations;
 
 impl Balance {
     /// Returns the x-coordinate of the current `Balance` position in the 3x3 grid.
@@ -208,6 +204,8 @@ impl Balance {
         )
     }
 }
+
+mod operations;
 
 #[cfg(feature = "ternary")]
 mod ternary;
