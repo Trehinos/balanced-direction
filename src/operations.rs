@@ -223,6 +223,52 @@ impl Balance {
         let (x, y) = self.to_vector();
         Self::from_vector(-y, x)
     }
+
+    /// Centers the current position horizontally in the 3x3 grid by setting the x-coordinate to 0.
+    ///
+    /// # Returns
+    ///
+    /// A `Balance` variant where the x-coordinate is always 0, keeping the same y-coordinate.
+    /// This effectively moves the current position to the vertical axis of the grid.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let balance = Balance::Left;
+    /// assert_eq!(balance.center_h(), Balance::Center);
+    ///
+    /// let balance = Balance::BottomLeft;
+    /// assert_eq!(balance.center_h(), Balance::Bottom);
+    /// ```
+    pub fn center_h(self) -> Self {
+        let (_, y) = self.to_vector();
+        Self::from_vector(0, y)
+    }
+
+    /// Centers the current position vertically in the 3x3 grid by setting the y-coordinate to 0.
+    ///
+    /// # Returns
+    ///
+    /// A `Balance` variant where the y-coordinate is always 0, keeping the same x-coordinate.
+    /// This effectively moves the current position to the horizontal axis of the grid.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let balance = Balance::Top;
+    /// assert_eq!(balance.center_v(), Balance::Center);
+    ///
+    /// let balance = Balance::TopRight;
+    /// assert_eq!(balance.center_v(), Balance::Right);
+    /// ```
+    pub fn center_v(self) -> Self {
+        let (x, _) = self.to_vector();
+        Self::from_vector(x, 0)
+    }
 }
 
 impl Not for Balance {

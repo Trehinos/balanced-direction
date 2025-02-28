@@ -5,6 +5,8 @@ ternary-inspired logic. It provides comprehensive tools to manipulate positions,
 structure, making it particularly useful in scenarios requiring discrete grid movement, coordinated navigation, or 2D
 spatial logic.
 
+![Balance](balance.png)
+
 ## Features
 
 - **Enum Representation (`Balance`)**:
@@ -92,16 +94,16 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 
 ##### Binary operations
 
-![img.png](binary-op-add.png)
-![img_1.png](binary-op-mul.png)
-![img_2.png](binary-op-sub.png)
-![img_3.png](binary-op-bitand.png)
-![img_4.png](binary-op-bitor.png)
-![img_5.png](binary-op-bitxor.png)
+![Operator Add](binary-op-add.png)
+![Operator Mul](binary-op-mul.png)
+![Operator Sub](binary-op-sub.png)
+![Operator BitAnd](binary-op-bitand.png)
+![Operator BitOr](binary-op-bitor.png)
+![Operator BitXor](binary-op-bitxor.png)
 
 ##### Unary operations
 
-![img_6.png](unary-ops.png)
+![Unary operations](unary-ops.png)
 
 ### `Path`
 
