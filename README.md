@@ -98,7 +98,7 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 
 ##### Unary operations
 
-![img.png](unary-ops.png)
+![Unary operations](unary-ops.png)
 
 ### `Path`
 
