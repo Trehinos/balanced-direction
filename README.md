@@ -94,16 +94,11 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 
 ##### Binary operations
 
-![Operator Add](binary-op-add.png)
-![Operator Mul](binary-op-mul.png)
-![Operator Sub](binary-op-sub.png)
-![Operator BitAnd](binary-op-bitand.png)
-![Operator BitOr](binary-op-bitor.png)
-![Operator BitXor](binary-op-bitxor.png)
+![Binary operations](binary-ops.png)
 
 ##### Unary operations
 
-![Unary operations](unary-ops.png)
+![img.png](unary-ops.png)
 
 ### `Path`
 
