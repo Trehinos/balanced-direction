@@ -91,6 +91,99 @@ pub enum Balance {
 }
 
 impl Balance {
+    /// Returns a unique integer value associated with each `Balance` variant.
+    ///
+    /// This mapping assigns a unique value to each position in the 3x3 grid,
+    /// which could be useful for serialization, indexing, or logical calculations
+    /// that depend on the position.
+    ///
+    /// # Returns
+    ///
+    /// An `i8` integer representing the `Balance` variant.
+    ///
+    /// # Mapping
+    ///
+    /// - `Balance::TopLeft` => `-4`
+    /// - `Balance::Top` => `-3`
+    /// - `Balance::TopRight` => `-2`
+    /// - `Balance::Left` => `-1`
+    /// - `Balance::Center` => `0`
+    /// - `Balance::Right` => `1`
+    /// - `Balance::BottomLeft` => `2`
+    /// - `Balance::Bottom` => `3`
+    /// - `Balance::BottomRight` => `4`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::Center;
+    /// assert_eq!(position.value(), 0);
+    ///
+    /// let position = Balance::TopRight;
+    /// assert_eq!(position.value(), -2);
+    /// ```
+    pub fn value(self) -> i8 {
+        match self {
+            Balance::TopLeft => -4,
+            Balance::Top => -3,
+            Balance::TopRight => -2,
+            Balance::Left => -1,
+            Balance::Center => 0,
+            Balance::Right => 1,
+            Balance::BottomLeft => 2,
+            Balance::Bottom => 3,
+            Balance::BottomRight => 4,
+        }
+    }
+
+    /// Constructs a `Balance` variant from a given `i8` value.
+    ///
+    /// This method maps an integer value to a specific `Balance` variant.
+    /// Values outside the valid range will cause a panic.
+    ///
+    /// # Arguments
+    ///
+    /// - `value` - An `i8` integer value corresponding to a `Balance` variant.
+    ///
+    /// # Returns
+    ///
+    /// A `Balance` instance mapped from the provided integer.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if the input value is not in the range `-4..=4`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::from_value(-4);
+    /// assert_eq!(position, Balance::TopLeft);
+    ///
+    /// let position = Balance::from_value(0);
+    /// assert_eq!(position, Balance::Center);
+    ///
+    /// // This will panic:
+    /// // let invalid = Balance::from_value(5);
+    /// ```
+    pub fn from_value(value: i8) -> Self {
+        match value {
+            -4 => Balance::TopLeft,
+            -3 => Balance::Top,
+            -2 => Balance::TopRight,
+            -1 => Balance::Left,
+            0 => Balance::Center,
+            1 => Balance::Right,
+            2 => Balance::BottomLeft,
+            3 => Balance::Bottom,
+            4 => Balance::BottomRight,
+            _ => panic!("Invalid value"),
+        }
+    }
+
     /// Converts the current `Balance` variant into a 2D vector `(i8, i8)` representing its coordinates.
     ///
     /// # Returns
@@ -156,7 +249,7 @@ impl Balance {
     ///
     /// # Returns
     ///
-    /// A `f32` value representing the Euclidean magnitude of the position.
+    /// A `f64` value representing the Euclidean magnitude of the position with low precision (but fast) calculus.
     ///
     /// # Examples
     ///
@@ -164,15 +257,19 @@ impl Balance {
     /// use balanced_direction::Balance;
     ///
     /// let position = Balance::TopLeft;
-    /// assert!((position.to_magnitude() - 2.0f32.sqrt()).abs() < 1e-6);
+    /// assert_eq!(position.to_magnitude(), 2.0f64.sqrt());
     ///
     /// let center = Balance::Center;
     /// assert_eq!(center.to_magnitude(), 0.0);
     /// ```
-    pub fn to_magnitude(self) -> f32 {
-        #[allow(unused_imports)]
-        use micromath::F32Ext;
-        (self.to_scalar() as f32).sqrt()
+    pub fn to_magnitude(self) -> f64 {
+        if self.is_corner() {
+            core::f64::consts::SQRT_2
+        } else if self.is_edge() {
+            1.0
+        } else {
+            0.0
+        }
     }
 
     /// Converts the current `Balance` position into its corresponding
