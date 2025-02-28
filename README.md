@@ -97,16 +97,17 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 - `Left`, `Center`, `Right`
 - `BottomLeft`, `Bottom`, `BottomRight`
 
-#### Key Methods:
+#### Operations:
 
-- **Conversion**:
-  `to_vector()`, `from_vector()`
-- **Movement**:
-  `up()`, `down()`, `left()`, `right()`
-- **Transformation**:
-  `flip_h()`, `flip_v()`, `rotate_left()`, `rotate_right()`
-- **Arithmetic** (with operator traits):
-  Addition (`+`), Subtraction (`-`), Negation (`-`), and Multiplication (`*`).
+##### Binary operations
+
+![binary-op-add](binary-op-add.png)
+![binary-op-mul](binary-op-mul.png)
+![binary-op-sub](binary-op-sub.png)
+
+##### Unary operations
+
+![unary-ops](unary-ops.png)
 
 ### `Path`
 
@@ -136,7 +137,8 @@ cases.
 
 ## Related Libraries
 
-- [`balanced-ternary`](https://crates.io/crates/balanced-ternary): Provides balanced ternary number manipulations used for optional integration.
+- [`balanced-ternary`](https://crates.io/crates/balanced-ternary): Provides balanced ternary number manipulations used
+  for optional integration.
 
 ## License
 

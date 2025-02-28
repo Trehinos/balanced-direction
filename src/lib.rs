@@ -578,10 +578,23 @@ impl Balance {
 
     /// Checks if the current position includes the center or any direct neighbor
     /// (top, bottom, left, or right) in the 3x3 grid.
-    pub fn has_center(self) -> bool {
+    pub fn is_orthogonal(self) -> bool {
         matches!(
             self,
             Balance::Center | Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
+        )
+    }
+
+    /// Checks if the current position includes the center or any indirect neighbor
+    /// (corners) in the 3x3 grid.
+    pub fn is_diagonal(self) -> bool {
+        matches!(
+            self,
+            Balance::Center
+                | Balance::TopLeft
+                | Balance::TopRight
+                | Balance::BottomLeft
+                | Balance::BottomRight
         )
     }
 
