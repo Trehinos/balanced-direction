@@ -148,6 +148,33 @@ impl Balance {
         x * x + y * y
     }
 
+    /// Calculates the Euclidean (or absolute) magnitude of the vector representation
+    /// of the current `Balance` position.
+    ///
+    /// The magnitude is defined as the square root of the scalar magnitude squared (`√(x² + y²)`),
+    /// where `(x, y)` are the coordinates of the position.
+    ///
+    /// # Returns
+    ///
+    /// A `f32` value representing the Euclidean magnitude of the position.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::TopLeft;
+    /// assert!((position.to_magnitude() - 2.0f32.sqrt()).abs() < 1e-6);
+    ///
+    /// let center = Balance::Center;
+    /// assert_eq!(center.to_magnitude(), 0.0);
+    /// ```
+    pub fn to_magnitude(self) -> f32 {
+        #[allow(unused_imports)]
+        use micromath::F32Ext;
+        (self.to_scalar() as f32).sqrt()
+    }
+
     /// Converts the current `Balance` position into its corresponding
     /// angle in degrees in a Cartesian coordinate system.
     ///
@@ -387,6 +414,30 @@ impl Balance {
     pub fn right(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector((x + 1).clamp(-1, 1), y)
+    }
+
+    /// Moves the position upwards in the 3x3 grid with wrapping behavior.
+    pub fn up_wrap(self) -> Self {
+        let (x, y) = self.to_vector();
+        Self::from_vector(x, if y == -1 { 1 } else { y - 1 })
+    }
+
+    /// Moves the position downwards in the 3x3 grid with wrapping behavior.
+    pub fn down_wrap(self) -> Self {
+        let (x, y) = self.to_vector();
+        Self::from_vector(x, if y == 1 { -1 } else { y + 1 })
+    }
+
+    /// Moves the position leftwards in the 3x3 grid with wrapping behavior.
+    pub fn left_wrap(self) -> Self {
+        let (x, y) = self.to_vector();
+        Self::from_vector(if x == -1 { 1 } else { x - 1 }, y)
+    }
+
+    /// Moves the position rightwards in the 3x3 grid with wrapping behavior.
+    pub fn right_wrap(self) -> Self {
+        let (x, y) = self.to_vector();
+        Self::from_vector(if x == 1 { -1 } else { x + 1 }, y)
     }
 
     /// Flips the current position horizontally in the 3x3 grid.
