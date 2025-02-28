@@ -1,9 +1,10 @@
 # Balanced Directions
 
 **Balanced Directions** is a Rust crate for modeling directions and movements in a 3x3 grid using a balanced
-ternary-inspired logic. It provides comprehensive tools to manipulate positions, paths, and directions on a grid-based
-structure, making it particularly useful in scenarios requiring discrete grid movement, coordinated navigation, or 2D
-spatial logic.
+ternary-inspired logic. **It can be viewed as a 2D ternary digit.** 
+
+It provides tools to manipulate positions, paths, and directions on a grid-based structure,
+making it useful in scenarios requiring discrete grid movement, coordinated navigation, or 2D spatial logic.
 
 ![Balance](balance.png)
 
