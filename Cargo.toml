@@ -2,7 +2,7 @@
 name = "balanced-direction"
 description = "A library to manipulate directions with discrete logic."
 authors = ["Sébastien GELDREICH <trehinos@gmail.com>"]
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 keywords = ["direction", "balanced", "base9", "multi-valued-logic"]

@@ -19,15 +19,6 @@ spatial logic.
 - **`#![no_std]` Compatibility**:
   A lightweight design for use in embedded or low-level systems.
 
-## Installation
-
-Add the following to your `Cargo.toml`:
-
-```toml
-[dependencies]
-balanced-directions = "^1"
-```
-
 ## Examples
 
 ### Position Representation and Movement
