@@ -41,7 +41,7 @@
 //! assert_eq!(balance.left(), Balance::Left);
 //! assert_eq!(balance.right(), Balance::Right);
 //! ```
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 extern crate alloc;
 
 use alloc::vec::Vec;
@@ -667,6 +667,34 @@ impl Sub for Balance {
 mod ternary {
     use super::Balance;
     use balanced_ternary::Digit;
+    use core::ops::{BitAnd, BitOr, BitXor};
+
+    impl BitAnd for Balance {
+        type Output = Self;
+        fn bitand(self, rhs: Self) -> Self::Output {
+            let (x1, y1) = self.to_ternary_pair();
+            let (x2, y2) = rhs.to_ternary_pair();
+            Balance::from_ternary_pair(x1 & x2, y1 & y2)
+        }
+    }
+
+    impl BitOr for Balance {
+        type Output = Self;
+        fn bitor(self, rhs: Self) -> Self::Output {
+            let (x1, y1) = self.to_ternary_pair();
+            let (x2, y2) = rhs.to_ternary_pair();
+            Balance::from_ternary_pair(x1 | x2, y1 | y2)
+        }
+    }
+
+    impl BitXor for Balance {
+        type Output = Self;
+        fn bitxor(self, rhs: Self) -> Self::Output {
+            let (x1, y1) = self.to_ternary_pair();
+            let (x2, y2) = rhs.to_ternary_pair();
+            Balance::from_ternary_pair(x1 ^ x2, y1 ^ y2)
+        }
+    }
 
     impl Balance {
         /// Converts the `Balance` position into a pair of ternary digits.

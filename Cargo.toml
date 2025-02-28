@@ -6,7 +6,7 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 keywords = ["direction", "balanced", "base9", "multi-valued-logic"]
-categories = ["data-structures", "mathematics", "science", "no-std"]
+categories = ["data-structures", "mathematics", "science", "no-std", "graphics"]
 repository = "https://github.com/Trehinos/balanced-direction"
 
 [features]
