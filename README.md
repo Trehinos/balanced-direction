@@ -115,7 +115,7 @@ Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, 
 
 ##### Double balanced-ternary logic
 
-Shorthands for :
+Shorthands for `Digit` operations :
 - `possibly`, `necessary`, `contingently`, `ht_not`, `post`, `pre`,
 - `absolute_positive`, `positive`, `not_negative`,
 - `absolute_negative`, `negative`, `not_positive`.
