@@ -105,13 +105,13 @@ impl Balance {
         }
     }
 
-    /// Checks if the current position has the `Balance::Top` variant or any variant
+    /// (spatial) Checks if the current position has the `Balance::Top` variant or any variant
     /// that includes the top row in the 3x3 grid.
     pub fn has_top(self) -> bool {
         matches!(self, Balance::Top | Balance::TopLeft | Balance::TopRight)
     }
 
-    /// Checks if the current position has the `Balance::Bottom` variant or any variant
+    /// (spatial) Checks if the current position has the `Balance::Bottom` variant or any variant
     /// that includes the bottom row in the 3x3 grid.
     pub fn has_bottom(self) -> bool {
         matches!(
@@ -120,13 +120,13 @@ impl Balance {
         )
     }
 
-    /// Checks if the current position has the `Balance::Bottom` variant or any variant
+    /// (spatial) Checks if the current position has the `Balance::Bottom` variant or any variant
     /// that includes the bottom row in the 3x3 grid.
     pub fn has_left(self) -> bool {
         matches!(self, Balance::Left | Balance::TopLeft | Balance::BottomLeft)
     }
 
-    /// Checks if the current position has the `Balance::Left` variant or any variant
+    /// (spatial) Checks if the current position has the `Balance::Left` variant or any variant
     /// that includes the left column in the 3x3 grid.
     pub fn has_right(self) -> bool {
         matches!(
@@ -135,7 +135,7 @@ impl Balance {
         )
     }
 
-    /// Checks if the current position includes the center or any direct neighbor
+    /// (spatial) Checks if the current position includes the center or any direct neighbor
     /// (top, bottom, left, or right) in the 3x3 grid.
     pub fn is_orthogonal(self) -> bool {
         matches!(
@@ -144,7 +144,7 @@ impl Balance {
         )
     }
 
-    /// Checks if the current position includes the center or any indirect neighbor
+    /// (spatial) Checks if the current position includes the center or any indirect neighbor
     /// (corners) in the 3x3 grid.
     pub fn is_diagonal(self) -> bool {
         matches!(
@@ -157,7 +157,7 @@ impl Balance {
         )
     }
 
-    /// Determines whether the current position is one of the edge positions
+    /// (spatial) Determines whether the current position is one of the edge positions
     /// (top, bottom, left, or right) in the 3x3 grid.
     pub fn is_edge(self) -> bool {
         matches!(
@@ -166,12 +166,53 @@ impl Balance {
         )
     }
 
-    /// Checks if the current position is one of the corner positions
+    /// (spatial) Checks if the current position is one of the corner positions
     /// (top-left, top-right, bottom-left, or bottom-right) in the 3x3 grid.
     pub fn is_corner(self) -> bool {
         matches!(
             self,
             Balance::TopLeft | Balance::TopRight | Balance::BottomLeft | Balance::BottomRight
         )
+    }
+
+    /// (logic) Checks if the current position is `Balance::BottomRight`.
+    pub fn is_true(self) -> bool {
+        matches!(self, Balance::BottomRight)
+    }
+
+    /// (logic) Checks if the current position includes `Balance::Bottom` or `Balance::Right`.
+    pub fn has_true(self) -> bool {
+        self.x() == 1 || self.y() == 1
+    }
+
+    /// (logic) Checks if the current position is contradictory, representing opposing truths (`TopRight` or `BottomLeft`).
+    pub fn is_contradictory(self) -> bool {
+        matches!(self, Balance::TopRight | Balance::BottomLeft)
+    }
+
+    /// (logic) Checks whether the current position has no certain value but is not contradictory.
+    pub fn has_unknown(self) -> bool {
+        // = self.is_orthogonal().
+        self.x() == 0 || self.y() == 0
+    }
+
+    /// (logic) Checks whether the current position is uncertain in terms of logical balance.
+    pub fn is_uncertain(self) -> bool {
+        !self.is_certain()
+    }
+
+    /// (logic) Returns whether the current position represents a certain state in logical balance (one of `is_true()` or `is_false()` is true).
+    pub fn is_certain(self) -> bool {
+        matches!(self, Balance::BottomRight | Balance::TopLeft)
+    }
+
+    /// (logic) Determines whether the current position includes the `Balance::Top` or `Balance::Left` variant.
+    pub fn has_false(self) -> bool {
+        self.x() == -1 || self.y() == -1
+    }
+
+    /// (logic) Checks if the current position is `Balance::TopLeft`.
+    pub fn is_false(self) -> bool {
+        matches!(self, Balance::TopLeft)
     }
 }
