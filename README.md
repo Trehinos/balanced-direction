@@ -108,10 +108,19 @@ Moves with bounds (`up`, `right`, `down`, `left`) or wraps around (`up_wrap`, `r
 
 ##### Unary operations
 
-Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, `not` (transpose), `rotate_left`, `rotate_right`,
-`center_h`, `center_v`).
+Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, `not` (transpose), `rotate_left`,
+`rotate_right`,`center_h`, `center_v`).
 
 ![Unary operations](unary-ops.png)
+
+##### Double balanced-ternary logic
+
+Shorthands for :
+- `possibly`, `necessary`, `contingently`, `ht_not`, `post`, `pre`,
+- `absolute_positive`, `positive`, `not_negative`,
+- `absolute_negative`, `negative`, `not_positive`.
+
+![Unary logic](unary-logic.png)
 
 ##### Binary operations
 
@@ -143,8 +152,7 @@ efficient representation of cumulative movement.
 ## Documentation
 
 The complete API documentation is available on [docs.rs](https://docs.rs/balanced-direction). It contains details on
-each type, method, and their use
-cases.
+each type, method, and their use cases.
 
 ## Related Libraries
 

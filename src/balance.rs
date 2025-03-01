@@ -68,7 +68,7 @@ impl Balance {
     /// let position = Balance::Center;
     /// assert_eq!(position.x(), 0);
     /// ```
-    pub fn x(self) -> i8 {
+    pub const fn x(self) -> i8 {
         if self.has_left() {
             -1
         } else if self.has_right() {
@@ -95,7 +95,7 @@ impl Balance {
     /// let position = Balance::Center;
     /// assert_eq!(position.y(), 0);
     /// ```
-    pub fn y(self) -> i8 {
+    pub const fn y(self) -> i8 {
         if self.has_top() {
             -1
         } else if self.has_bottom() {
@@ -107,13 +107,13 @@ impl Balance {
 
     /// (spatial) Checks if the current position has the `Balance::Top` variant or any variant
     /// that includes the top row in the 3x3 grid.
-    pub fn has_top(self) -> bool {
+    pub const fn has_top(self) -> bool {
         matches!(self, Balance::Top | Balance::TopLeft | Balance::TopRight)
     }
 
     /// (spatial) Checks if the current position has the `Balance::Bottom` variant or any variant
     /// that includes the bottom row in the 3x3 grid.
-    pub fn has_bottom(self) -> bool {
+    pub const fn has_bottom(self) -> bool {
         matches!(
             self,
             Balance::Bottom | Balance::BottomLeft | Balance::BottomRight
@@ -122,13 +122,13 @@ impl Balance {
 
     /// (spatial) Checks if the current position has the `Balance::Bottom` variant or any variant
     /// that includes the bottom row in the 3x3 grid.
-    pub fn has_left(self) -> bool {
+    pub const fn has_left(self) -> bool {
         matches!(self, Balance::Left | Balance::TopLeft | Balance::BottomLeft)
     }
 
     /// (spatial) Checks if the current position has the `Balance::Left` variant or any variant
     /// that includes the left column in the 3x3 grid.
-    pub fn has_right(self) -> bool {
+    pub const fn has_right(self) -> bool {
         matches!(
             self,
             Balance::Right | Balance::TopRight | Balance::BottomRight
@@ -137,7 +137,7 @@ impl Balance {
 
     /// (spatial) Checks if the current position includes the center or any direct neighbor
     /// (top, bottom, left, or right) in the 3x3 grid.
-    pub fn is_orthogonal(self) -> bool {
+    pub const fn is_orthogonal(self) -> bool {
         matches!(
             self,
             Balance::Center | Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
@@ -146,7 +146,7 @@ impl Balance {
 
     /// (spatial) Checks if the current position includes the center or any indirect neighbor
     /// (corners) in the 3x3 grid.
-    pub fn is_diagonal(self) -> bool {
+    pub const fn is_diagonal(self) -> bool {
         matches!(
             self,
             Balance::Center
@@ -159,7 +159,7 @@ impl Balance {
 
     /// (spatial) Determines whether the current position is one of the edge positions
     /// (top, bottom, left, or right) in the 3x3 grid.
-    pub fn is_edge(self) -> bool {
+    pub const fn is_edge(self) -> bool {
         matches!(
             self,
             Balance::Top | Balance::Bottom | Balance::Left | Balance::Right
@@ -168,7 +168,7 @@ impl Balance {
 
     /// (spatial) Checks if the current position is one of the corner positions
     /// (top-left, top-right, bottom-left, or bottom-right) in the 3x3 grid.
-    pub fn is_corner(self) -> bool {
+    pub const fn is_corner(self) -> bool {
         matches!(
             self,
             Balance::TopLeft | Balance::TopRight | Balance::BottomLeft | Balance::BottomRight

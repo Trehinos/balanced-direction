@@ -43,7 +43,7 @@ impl Balance {
     /// let position = Balance::TopRight;
     /// assert_eq!(position.to_value(), -2);
     /// ```
-    pub fn to_value(self) -> i8 {
+    pub const fn to_value(self) -> i8 {
         match self {
             Balance::TopLeft => -4,
             Balance::Top => -3,
@@ -88,7 +88,7 @@ impl Balance {
     /// // This will panic:
     /// // let invalid = Balance::from_value(5);
     /// ```
-    pub fn from_value(value: i8) -> Self {
+    pub const fn from_value(value: i8) -> Self {
         match value {
             -4 => Balance::TopLeft,
             -3 => Balance::Top,
@@ -124,7 +124,7 @@ impl Balance {
     /// let center = Balance::Center;
     /// assert_eq!(center.to_scalar(), 0);
     /// ```
-    pub fn to_scalar(self) -> i8 {
+    pub const fn to_scalar(self) -> i8 {
         let (x, y) = self.to_vector();
         x * x + y * y
     }
@@ -150,7 +150,7 @@ impl Balance {
     /// let center = Balance::Center;
     /// assert_eq!(center.to_magnitude(), 0.0);
     /// ```
-    pub fn to_magnitude(self) -> f64 {
+    pub const fn to_magnitude(self) -> f64 {
         if self.is_corner() {
             core::f64::consts::SQRT_2
         } else if self.is_edge() {
@@ -250,7 +250,7 @@ impl Balance {
     /// let center = Balance::Center;
     /// assert_eq!(center.to_vector(), (0, 0));
     /// ```
-    pub fn to_vector(self) -> (i8, i8) {
+    pub const fn to_vector(self) -> (i8, i8) {
         (self.x(), self.y())
     }
 
@@ -280,7 +280,7 @@ impl Balance {
     /// let balance = Balance::from_vector(0, 1);
     /// assert_eq!(balance, Balance::Bottom);
     /// ```
-    pub fn from_vector(a: i8, b: i8) -> Self {
+    pub const fn from_vector(a: i8, b: i8) -> Self {
         match (a, b) {
             (-1, -1) => Balance::TopLeft,
             (0, -1) => Balance::Top,
