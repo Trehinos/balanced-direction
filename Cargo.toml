@@ -2,7 +2,7 @@
 name = "balanced-direction"
 description = "A library to manipulate directions with discrete logic."
 authors = ["Sébastien GELDREICH <trehinos@gmail.com>"]
-version = "0.2.0"
+version = "0.1.4"
 edition = "2021"
 license = "MIT"
 keywords = ["direction", "balanced", "base9", "multi-valued-logic"]
@@ -15,4 +15,3 @@ ternary = ["dep:balanced-ternary"]
 
 [dependencies]
 balanced-ternary = { version = "^1", optional = true, default-features = false }
-micromath = "^2"

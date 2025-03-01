@@ -1,6 +1,15 @@
 use crate::Balance;
 
 impl Balance {
+    pub const EAST: f64 = 0.0;
+    pub const NORTH_EAST: f64 = 45.0;
+    pub const NORTH: f64 = 90.0;
+    pub const NORTH_WEST: f64 = 135.0;
+    pub const WEST: f64 = 180.0;
+    pub const SOUTH_EAST: f64 = -45.0;
+    pub const SOUTH: f64 = -90.0;
+    pub const SOUTH_WEST: f64 = -135.0;
+
     /// Returns a unique integer value associated with each `Balance` variant.
     ///
     /// This mapping assigns a unique value to each position in the 3x3 grid,
@@ -154,13 +163,11 @@ impl Balance {
     /// Converts the current `Balance` position into its corresponding
     /// angle in degrees in a Cartesian coordinate system.
     ///
-    /// The angle is calculated in a counter-clockwise direction starting from
-    /// the positive x-axis, with `(-y, x)` treated as the vector
-    /// direction. The angle is returned in the range `[-180.0, 180.0]` degrees.
+    /// The angle is returned in the range `[-180.0, 180.0]` degrees.
     ///
     /// # Returns
     ///
-    /// A `f32` value representing the angle in degrees.
+    /// A `f64` value representing the angle in degrees.
     ///
     /// # Examples
     ///
@@ -170,25 +177,25 @@ impl Balance {
     /// let position = Balance::Top;
     /// assert_eq!(position.to_angle(), 90.0);
     /// ```
-    pub fn to_angle(self) -> f32 {
-        #[allow(unused_imports)]
-        use micromath::F32Ext;
-        let (x, y) = self.to_vector();
-        let angle = (-y as f32).atan2(x as f32);
-        angle.to_degrees()
+    pub const fn to_angle(self) -> f64 {
+        match self {
+            Balance::TopLeft => Self::NORTH_WEST,
+            Balance::Top => Self::NORTH,
+            Balance::TopRight => Self::NORTH_EAST,
+            Balance::Left => Self::WEST,
+            Balance::Right => Self::EAST,
+            Balance::BottomLeft => Self::SOUTH_WEST,
+            Balance::Bottom => Self::SOUTH,
+            Balance::BottomRight => Self::SOUTH_EAST,
+            _ => panic!("Invalid value: cannot convert Balance::Center to an angle."),
+        }
     }
 
     /// Constructs a `Balance` enum variant based on the given angle in degrees.
     ///
-    /// The angle is treated in the Cartesian coordinate system, where:
-    /// - `0` degrees corresponds to `Balance::Right` (positive x-axis),
-    /// - Positive angles proceed counterclockwise, and negative angles proceed clockwise,
-    /// - The `angle` is normalized into the range `[-180.0, 180.0]` and converted into
-    ///   the nearest discrete position `(x, y)` on the 3x3 grid.
-    ///
     /// # Parameters
     ///
-    /// - `angle`: A `f32` value representing the angle in degrees.
+    /// - `angle`: A `f64` value representing the angle in degrees.
     ///
     /// # Returns
     ///
@@ -204,15 +211,26 @@ impl Balance {
     ///
     /// let balance = Balance::from_angle(-135.0);
     /// assert_eq!(balance, Balance::BottomLeft);
+    ///
+    /// let balance = Balance::from_angle(270.0);
+    /// assert_eq!(balance, Balance::Bottom);
     /// ```
-    pub fn from_angle(angle: f32) -> Self {
-        #[allow(unused_imports)]
-        use micromath::F32Ext;
-        let angle = angle.to_radians();
-        let x = angle.cos();
-        let y = -angle.sin();
-        let (x, y) = (x.round() as i8, y.round() as i8);
-        Self::from_vector(x, y)
+    pub const fn from_angle(angle: f64) -> Self {
+        let mut angle = angle % 360.0;
+        if angle > 180.0 {
+            angle = -(360.0 - angle);
+        }
+        match angle {
+            Self::EAST => Balance::Right,
+            Self::NORTH_EAST => Balance::TopRight,
+            Self::NORTH => Balance::Top,
+            Self::NORTH_WEST => Balance::TopLeft,
+            Self::WEST => Balance::Left,
+            Self::SOUTH_WEST => Balance::BottomLeft,
+            Self::SOUTH => Balance::Bottom,
+            Self::SOUTH_EAST => Balance::BottomRight,
+            _ => panic!("Invalid angle. Cannot construct a Balance from an approximate angle."),
+        }
     }
 
     /// Converts the current `Balance` variant into a 2D vector `(i8, i8)` representing its coordinates.
