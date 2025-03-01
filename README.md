@@ -83,9 +83,9 @@ fn ternary_example() {
 
 ### `Balance`
 
-| The `Balance` enum<br>represents nine positions<br>of a 3x3 grid | As a 2D ternary digit<br>its cases can be viewed as `False`/`Unknown`/`True`<br>on 2 dimensions |
-|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| ![Balance](balance.png)                                          | ![Balance trits](balance-trits.png)                                                             |
+| The `Balance` enum<br>represents nine positions<br>of a 3x3 grid | As a 2D ternary digit<br>its cases can be viewed<br>as `False`/`Unknown`/`True`<br>on 2 dimensions |
+|------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| ![Balance](balance.png)                                          | ![Balance trits](balance-trits.png)                                                                |
 
 `Balance` enum cases:
 
