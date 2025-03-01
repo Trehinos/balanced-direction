@@ -107,14 +107,14 @@ Moves with bounds (`up`, `right`, `down`, `left`) or wraps around (`up_wrap`, `r
 
 ##### Unary operations
 
-Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, `not`, `rotate_left`, `rotate_right`,
+Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, `not` (transpose), `rotate_left`, `rotate_right`,
 `center_h`, `center_v`).
 
 ![Unary operations](unary-ops.png)
 
 ##### Binary operations
 
-Combines two `Balance`s into one.
+Combines two `Balance`s into one (`add`, `mul`, `sub`, `bitand`, `bitor`, `bitxor`).
 
 ![Binary operations](binary-ops.png)
 
