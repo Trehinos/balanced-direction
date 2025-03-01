@@ -174,45 +174,4 @@ impl Balance {
             Balance::TopLeft | Balance::TopRight | Balance::BottomLeft | Balance::BottomRight
         )
     }
-
-    /// (logic) Checks if the current position is `Balance::BottomRight`.
-    pub fn is_true(self) -> bool {
-        matches!(self, Balance::BottomRight)
-    }
-
-    /// (logic) Checks if the current position includes `Balance::Bottom` or `Balance::Right`.
-    pub fn has_true(self) -> bool {
-        self.x() == 1 || self.y() == 1
-    }
-
-    /// (logic) Checks if the current position is contradictory, representing opposing truths (`TopRight` or `BottomLeft`).
-    pub fn is_contradictory(self) -> bool {
-        matches!(self, Balance::TopRight | Balance::BottomLeft)
-    }
-
-    /// (logic) Checks whether the current position has no certain value but is not contradictory.
-    pub fn has_unknown(self) -> bool {
-        // = self.is_orthogonal().
-        self.x() == 0 || self.y() == 0
-    }
-
-    /// (logic) Checks whether the current position is uncertain in terms of logical balance.
-    pub fn is_uncertain(self) -> bool {
-        !self.is_certain()
-    }
-
-    /// (logic) Returns whether the current position represents a certain state in logical balance (one of `is_true()` or `is_false()` is true).
-    pub fn is_certain(self) -> bool {
-        matches!(self, Balance::BottomRight | Balance::TopLeft)
-    }
-
-    /// (logic) Determines whether the current position includes the `Balance::Top` or `Balance::Left` variant.
-    pub fn has_false(self) -> bool {
-        self.x() == -1 || self.y() == -1
-    }
-
-    /// (logic) Checks if the current position is `Balance::TopLeft`.
-    pub fn is_false(self) -> bool {
-        matches!(self, Balance::TopLeft)
-    }
 }
