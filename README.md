@@ -1,25 +1,23 @@
 # Balanced Directions
 
 **Balanced Directions** is a Rust crate for modeling directions and movements in a 3x3 grid using a balanced
-ternary-inspired logic. **It can be viewed as a 2D ternary digit.** 
+ternary-inspired logic. **It can be viewed as a 2D ternary digit.**
 
 It provides tools to manipulate positions, paths, and directions on a grid-based structure,
 making it useful in scenarios requiring discrete grid movement, coordinated navigation, or 2D spatial logic.
 
-![Balance](balance.png)
-
 ## Features
 
-- **Enum Representation (`Balance`)**:
+- **Enum Representation (`Balance`)**:  
   Represents positions in a 3x3 grid with easy access to their 2D vector representation.
-- **Grid Navigation**:
+- **Grid Navigation**:  
   Convenient methods for grid-based movement operations (`up`, `down`, `left`, `right`) as well as rotations, flips, and
   vector transformations.
-- **Path Manipulation**:
+- **Path Manipulation**:  
   A `Path` structure for modeling sequences of movements, offering utilities to normalize, reverse, and transform paths.
-- **Ternary Integration (Optional)**:
-  [Balanced ternary]()-based coordinates when integrating with the `balanced-ternary` crate.
-- **`#![no_std]` Compatibility**:
+- **Ternary Integration (Optional)**:  
+  Balanced-ternary-based coordinates when integrating with the `balanced-ternary` crate.
+- **`#![no_std]` Compatibility**:  
   A lightweight design for use in embedded or low-level systems.
 
 ## Examples
@@ -85,7 +83,11 @@ fn ternary_example() {
 
 ### `Balance`
 
-The `Balance` enum represents nine positions of a 3x3 grid:
+| The `Balance` enum<br>represents nine positions<br>of a 3x3 grid | As a 2D ternary digit<br>its cases can be viewed as `False`/`Unknown`/`True`<br>on 2 dimensions |
+|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| ![Balance](balance.png)                                          | ![Balance trits](balance-trits.png)                                                             |
+
+`Balance` enum cases:
 
 - `TopLeft`, `Top`, `TopRight`
 - `Left`, `Center`, `Right`
@@ -93,13 +95,28 @@ The `Balance` enum represents nine positions of a 3x3 grid:
 
 #### Operations:
 
-##### Binary operations
+A lot of operation can be performed with one (unary operations) or two (binary operations) `Balance`(s).
 
-![Binary operations](binary-ops.png)
+Below, the operation table of all **Balance operations**.
+
+##### Unary directions
+
+Moves with bounds (`up`, `right`, `down`, `left`) or wraps around (`up_wrap`, `right_wrap`, `down_wrap`, `left_wrap`).
+
+![Unary directions](unary-dirs.png)
 
 ##### Unary operations
 
+Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, `not`, `rotate_left`, `rotate_right`,
+`center_h`, `center_v`).
+
 ![Unary operations](unary-ops.png)
+
+##### Binary operations
+
+Combines two `Balance`s into one.
+
+![Binary operations](binary-ops.png)
 
 ### `Path`
 
@@ -124,7 +141,8 @@ efficient representation of cumulative movement.
 
 ## Documentation
 
-The complete API documentation is available on [docs.rs](https://docs.rs/balanced-direction). It contains details on each type, method, and their use
+The complete API documentation is available on [docs.rs](https://docs.rs/balanced-direction). It contains details on
+each type, method, and their use
 cases.
 
 ## Related Libraries
