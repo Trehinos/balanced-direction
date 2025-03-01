@@ -15,8 +15,9 @@ making it useful in scenarios requiring discrete grid movement, coordinated navi
   vector transformations.
 - **Path Manipulation**:  
   A `Path` structure for modeling sequences of movements, offering utilities to normalize, reverse, and transform paths.
-- **Ternary Integration (Optional)**:  
-  Balanced-ternary-based coordinates when integrating with the `balanced-ternary` crate.
+- **Ternary Integration (Optional, active by default)**:  
+  Balanced-ternary-based coordinates when integrating with the `balanced-ternary` crate.  
+  Adds double balanced-ternary logic operations.
 - **`#![no_std]` Compatibility**:  
   A lightweight design for use in embedded or low-level systems.
 
@@ -114,7 +115,7 @@ Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, 
 
 ##### Binary operations
 
-Combines two `Balance`s into one (`add`, `mul`, `sub`, `bitand`, `bitor`, `bitxor`).
+Combines two `Balance`s into one (`add`, `mul`, `sub`, and with the `ternary` feature : `bitand`, `bitor`, `bitxor`).
 
 ![Binary operations](binary-ops.png)
 
