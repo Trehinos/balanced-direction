@@ -344,6 +344,26 @@ impl Balance {
         let (x, y) = self.to_ternary_pair();
         Self::from_ternary_pair(x.pre(), y.pre())
     }
+    /// Applies [Digit::k3_imply] on `x` and `y`.
+    pub const fn k3_imply(self, other: Self) -> Self {
+        let (x1, y1) = self.to_ternary_pair();
+        let (x2, y2) = other.to_ternary_pair();
+        Self::from_ternary_pair(x1.k3_imply(x2), y1.k3_imply(y2))
+    }
+    /// Applies [Digit::k3_equiv] on `x` and `y`.
+    ///
+    /// Equivalent to `self * other`.
+    pub const fn k3_equiv(self, other: Self) -> Self {
+        let (x1, y1) = self.to_ternary_pair();
+        let (x2, y2) = other.to_ternary_pair();
+        Self::from_ternary_pair(x1.k3_equiv(x2), y1.k3_equiv(y2))
+    }
+    /// Applies [Digit::ht_imply] on `x` and `y`.
+    pub const fn ht_imply(self, other: Self) -> Self {
+        let (x1, y1) = self.to_ternary_pair();
+        let (x2, y2) = other.to_ternary_pair();
+        Self::from_ternary_pair(x1.ht_imply(x2), y1.ht_imply(y2))
+    }
 
     /// Applies a transformation function `x` and another on `y` coordinates.
     ///
@@ -378,6 +398,48 @@ impl Balance {
     {
         let (x, y) = self.to_ternary_pair();
         Self::from_ternary_pair(op_x(x), op_y(y))
+    }
+
+    /// Applies two transformation functions - one for `x` and one for `y` - on a `Balance` instance along with another `Balance`.
+    ///
+    /// This function takes two coordinate transformation functions (`op_x` and `op_y`) as well as another `Balance` instance (`other`).
+    /// It applies `op_x` to the `x` coordinates of both balances, and `op_y` to the `y` coordinates of both balances, combining the results into a new `Balance`.
+    ///
+    /// # Parameters
+    ///
+    /// - `op_x`: A function that transforms the `x` coordinates of both balances.
+    /// - `op_y`: A function that transforms the `y` coordinates of both balances.
+    /// - `other`: The second `Balance` object to use for coordinate transformations.
+    ///
+    /// # Returns
+    ///
+    /// A new `Balance` object with transformed `x` and `y` based on the provided functions and the two input balances.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_ternary::Digit;
+    /// use balanced_direction::Balance;
+    ///
+    /// let balance1 = Balance::TopRight;
+    /// let balance2 = Balance::BottomLeft;
+    ///
+    /// let result = balance1.apply_with(
+    ///     |x1, x2| x1.k3_equiv(x2),
+    ///     |y1, y2| y1.k3_imply(y2),
+    ///     balance2
+    /// );
+    ///
+    /// assert_eq!(result, Balance::BottomLeft);
+    /// ```
+    pub fn apply_with<FX, FY>(self, op_x: FX, op_y: FY, other: Self) -> Self
+    where
+        FX: Fn(Digit, Digit) -> Digit,
+        FY: Fn(Digit, Digit) -> Digit,
+    {
+        let (x1, y1) = self.to_ternary_pair();
+        let (x2, y2) = other.to_ternary_pair();
+        Self::from_ternary_pair(op_x(x1, x2), op_y(y1, y2))
     }
     /// Applies the given transformation on both `x` and `y`.
     /// 
