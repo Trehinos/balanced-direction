@@ -55,3 +55,14 @@ mod path;
 
 pub use balance::Balance;
 pub use path::Path;
+
+#[cfg(test)]
+mod tests {
+    use core::fmt::Debug;
+    
+    pub fn assert_eq_array<T: PartialEq + Debug>(a: [T; 9], b: [T; 9]) {
+        for i in 0..9 {
+            assert_eq!(a[i], b[i]);
+        }
+    }
+}

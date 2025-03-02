@@ -90,43 +90,80 @@ impl Balance {
         Self::from_vector(a.to_i8(), b.to_i8())
     }
 
-    /// (logic) Checks if the current logical state is `Balance::BottomRight`.
+    /// (logic) Checks if the current logical state is `Balance::BottomRight` (True, True).
     pub const fn is_true(self) -> bool {
         matches!(self, Balance::BottomRight)
     }
 
     /// (logic) Checks if the current logical state includes `Balance::Bottom` or `Balance::Right`.
+    ///
+    /// * [Balance::TopRight] (True, False)
+    /// * [Balance::Right] (True, Unknown)
+    /// * [Balance::BottomLeft] (False, True)
+    /// * [Balance::Bottom] (Unknown, True)
+    /// * [Balance::BottomRight] (True, True)
     pub const fn has_true(self) -> bool {
         self.x() == 1 || self.y() == 1
     }
 
     /// (logic) Checks if the current logical state is contradictory, representing opposing truths (`TopRight` or `BottomLeft`).
+    ///
+    /// * [Balance::TopRight] (True, False)
+    /// * [Balance::BottomLeft] (False, True)
     pub const fn is_contradictory(self) -> bool {
         matches!(self, Balance::TopRight | Balance::BottomLeft)
     }
 
     /// (logic) Checks whether the current logical state has no certain value but is not contradictory.
+    ///
+    /// * [Balance::Top] (Unknown, False)
+    /// * [Balance::Left] (False, Unknown)
+    /// * [Balance::Center] (Unknown, Unknown)
+    /// * [Balance::Right] (True, Unknown)
+    /// * [Balance::Bottom] (Unknown, True)
     pub const fn has_unknown(self) -> bool {
         // = self.is_orthogonal().
         self.x() == 0 || self.y() == 0
     }
 
     /// (logic) Checks whether the current logical state is uncertain in terms of logical balance.
+    ///
+    /// Equals:
+    /// * `is_contradictory() || has_unknown()`,
+    /// * or `!is_certain()`.
+    ///
+    /// These cases return `true`:
+    /// * [Balance::TopRight] (True, False)
+    /// * [Balance::BottomLeft] (False, True)
+    /// * [Balance::Top] (Unknown, False)
+    /// * [Balance::Left] (False, Unknown)
+    /// * [Balance::Center] (Unknown, Unknown)
+    /// * [Balance::Right] (True, Unknown)
+    /// * [Balance::Bottom] (Unknown, True)
     pub const fn is_uncertain(self) -> bool {
         !self.is_certain()
     }
 
     /// (logic) Returns whether the current logical state represents a certain state in logical balance (one of `is_true()` or `is_false()` is true).
+    ///
+    /// * [Balance::TopLeft] (False, False)
+    /// * [Balance::BottomRight] (True, True)
     pub const fn is_certain(self) -> bool {
         matches!(self, Balance::BottomRight | Balance::TopLeft)
     }
 
     /// (logic) Determines whether the current logical state includes the `Balance::Top` or `Balance::Left` variant.
+    ///
+    /// * [Balance::TopLeft] (False, False)
+    /// * [Balance::Top] (Unknown, False)
+    /// * [Balance::TopRight] (True, False)
+    /// * [Balance::Left] (False, Unknown)
+    /// * [Balance::BottomLeft] (False, True)
     pub const fn has_false(self) -> bool {
         self.x() == -1 || self.y() == -1
     }
 
-    /// (logic) Checks if the current logical state is `Balance::TopLeft`.
+    /// (logic) Checks if the current logical state is `Balance::TopLeft` (False, False).
     pub const fn is_false(self) -> bool {
         matches!(self, Balance::TopLeft)
     }
@@ -312,22 +349,236 @@ impl Balance {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::tests::assert_eq_array;
+
+    const BALANCES: [Balance; 9] = [
+        Balance::TopLeft,
+        Balance::Top,
+        Balance::TopRight,
+        Balance::Left,
+        Balance::Center,
+        Balance::Right,
+        Balance::BottomLeft,
+        Balance::Bottom,
+        Balance::BottomRight,
+    ];
+
     #[test]
-    fn test() {
-        let balances = [
-            Balance::TopLeft,
-            Balance::Top,
-            Balance::TopRight,
-            Balance::Left,
-            Balance::Center,
-            Balance::Right,
-            Balance::BottomLeft,
-            Balance::Bottom,
-            Balance::BottomRight,
-        ];
-        for balance in balances.iter() {
-            let result = balance.pre();
-            println!("{:?} -> {:?}", balance, result);
-        }
+    fn test_possibly() {
+        let results = BALANCES.map(Balance::possibly);
+        assert_eq_array(
+            results,
+            [
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::TopRight,
+                Balance::BottomLeft,
+                Balance::BottomRight,
+                Balance::BottomRight,
+                Balance::BottomLeft,
+                Balance::BottomRight,
+                Balance::BottomRight,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_necessary() {
+        let results = BALANCES.map(Balance::necessary);
+        assert_eq_array(
+            results,
+            [
+                Balance::TopLeft,
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::TopLeft,
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::BottomLeft,
+                Balance::BottomLeft,
+                Balance::BottomRight,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_contingently() {
+        let results = BALANCES.map(Balance::contingently);
+        assert_eq_array(
+            results,
+            [
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::TopLeft,
+                Balance::BottomLeft,
+                Balance::BottomRight,
+                Balance::BottomLeft,
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::TopLeft,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_absolute_positive() {
+        assert_eq_array(
+            BALANCES.map(Balance::absolute_positive),
+            [
+                Balance::BottomRight,
+                Balance::Bottom,
+                Balance::BottomRight,
+                Balance::Right,
+                Balance::Center,
+                Balance::Right,
+                Balance::BottomRight,
+                Balance::Bottom,
+                Balance::BottomRight,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_positive() {
+        assert_eq_array(
+            BALANCES.map(Balance::positive),
+            [
+                Balance::Center,
+                Balance::Center,
+                Balance::Right,
+                Balance::Center,
+                Balance::Center,
+                Balance::Right,
+                Balance::Bottom,
+                Balance::Bottom,
+                Balance::BottomRight,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_not_negative() {
+        assert_eq_array(
+            BALANCES.map(Balance::not_negative),
+            [
+                Balance::Center,
+                Balance::Right,
+                Balance::Right,
+                Balance::Bottom,
+                Balance::BottomRight,
+                Balance::BottomRight,
+                Balance::Bottom,
+                Balance::BottomRight,
+                Balance::BottomRight,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_not_positive() {
+        assert_eq_array(
+            BALANCES.map(Balance::not_positive),
+            [
+                Balance::TopLeft,
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::TopLeft,
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::Left,
+                Balance::Left,
+                Balance::Center,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_negative() {
+        assert_eq_array(
+            BALANCES.map(Balance::negative),
+            [
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::Top,
+                Balance::Left,
+                Balance::Center,
+                Balance::Center,
+                Balance::Left,
+                Balance::Center,
+                Balance::Center,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_absolute_negative() {
+        assert_eq_array(
+            BALANCES.map(Balance::absolute_negative),
+            [
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::TopLeft,
+                Balance::Left,
+                Balance::Center,
+                Balance::Left,
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::TopLeft,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_ht_not() {
+        assert_eq_array(
+            BALANCES.map(Balance::ht_not),
+            [
+                Balance::BottomRight,
+                Balance::BottomLeft,
+                Balance::BottomLeft,
+                Balance::TopRight,
+                Balance::TopLeft,
+                Balance::TopLeft,
+                Balance::TopRight,
+                Balance::TopLeft,
+                Balance::TopLeft,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_post() {
+        assert_eq_array(
+            BALANCES.map(Balance::post),
+            [
+                Balance::Center,
+                Balance::Right,
+                Balance::Left,
+                Balance::Bottom,
+                Balance::BottomRight,
+                Balance::BottomLeft,
+                Balance::Top,
+                Balance::TopRight,
+                Balance::TopLeft,
+            ],
+        );
+    }
+
+    #[test]
+    fn test_pre() {
+        assert_eq_array(
+            BALANCES.map(Balance::pre),
+            [
+                Balance::BottomRight,
+                Balance::BottomLeft,
+                Balance::Bottom,
+                Balance::TopRight,
+                Balance::TopLeft,
+                Balance::Top,
+                Balance::Right,
+                Balance::Left,
+                Balance::Center,
+            ],
+        );
     }
 }

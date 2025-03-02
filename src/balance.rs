@@ -120,14 +120,14 @@ impl Balance {
         )
     }
 
-    /// (spatial) Checks if the current position has the `Balance::Bottom` variant or any variant
-    /// that includes the bottom row in the 3x3 grid.
+    /// (spatial) Checks if the current position has the `Balance::Left` variant or any variant
+    /// that includes the left row in the 3x3 grid.
     pub const fn has_left(self) -> bool {
         matches!(self, Balance::Left | Balance::TopLeft | Balance::BottomLeft)
     }
 
-    /// (spatial) Checks if the current position has the `Balance::Left` variant or any variant
-    /// that includes the left column in the 3x3 grid.
+    /// (spatial) Checks if the current position has the `Balance::Right` variant or any variant
+    /// that includes the right column in the 3x3 grid.
     pub const fn has_right(self) -> bool {
         matches!(
             self,

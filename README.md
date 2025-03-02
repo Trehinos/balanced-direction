@@ -77,6 +77,8 @@ fn ternary_example() {
 
     let recreated_position = Balance::from_ternary_pair(Digit::Zero, Digit::Neg);
     assert_eq!(recreated_position, Balance::Top);
+    let possibly = recreated_position.possibly();
+    assert_eq!(possibly, Balance::TopRight);
 }
 ```
 
@@ -116,9 +118,11 @@ Performs some useful transformations on a `Balance` (`flip_h`, `neg`, `flip_v`, 
 ##### Double balanced-ternary logic
 
 Shorthands for `Digit` operations :
-- `possibly`, `necessary`, `contingently`, `ht_not`, `post`, `pre`,
+
+- `possibly`, `necessary`, `contingently`,
 - `absolute_positive`, `positive`, `not_negative`,
-- `absolute_negative`, `negative`, `not_positive`.
+- `not_positive`, `negative`, `absolute_negative`,
+- `ht_not`, `post`, `pre`.
 
 ![Unary logic](unary-logic.png)
 

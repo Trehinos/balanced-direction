@@ -20,9 +20,9 @@ impl Balance {
     /// let balance = Balance::Top;
     /// assert_eq!(balance.up(), Balance::Top);
     /// ```
-    pub fn up(self) -> Self {
+    pub const fn up(self) -> Self {
         let (x, y) = self.to_vector();
-        Self::from_vector(x, (y - 1).clamp(-1, 1))
+        Self::from_vector(x, if y == -1 { -1 } else { y - 1 })
     }
 
     /// Moves the current position downwards in the 3x3 grid while staying within bounds.
@@ -43,9 +43,9 @@ impl Balance {
     /// let balance = Balance::Bottom;
     /// assert_eq!(balance.down(), Balance::Bottom);
     /// ```
-    pub fn down(self) -> Self {
+    pub const fn down(self) -> Self {
         let (x, y) = self.to_vector();
-        Self::from_vector(x, (y + 1).clamp(-1, 1))
+        Self::from_vector(x, if y == 1 { 1 } else { y + 1 })
     }
 
     /// Moves the current position to the left in the 3x3 grid while staying within bounds.
@@ -66,9 +66,9 @@ impl Balance {
     /// let balance = Balance::Left;
     /// assert_eq!(balance.left(), Balance::Left);
     /// ```
-    pub fn left(self) -> Self {
+    pub const fn left(self) -> Self {
         let (x, y) = self.to_vector();
-        Self::from_vector((x - 1).clamp(-1, 1), y)
+        Self::from_vector(if x == -1 { -1 } else { x - 1 }, y)
     }
 
     /// Moves the current position to the right in the 3x3 grid while staying within bounds.
@@ -89,31 +89,31 @@ impl Balance {
     /// let balance = Balance::Right;
     /// assert_eq!(balance.right(), Balance::Right);
     /// ```
-    pub fn right(self) -> Self {
+    pub const fn right(self) -> Self {
         let (x, y) = self.to_vector();
-        Self::from_vector((x + 1).clamp(-1, 1), y)
+        Self::from_vector(if x == 1 { 1 } else { x + 1 }, y)
     }
 
     /// Moves the position upwards in the 3x3 grid with wrapping behavior.
-    pub fn up_wrap(self) -> Self {
+    pub const fn up_wrap(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(x, if y == -1 { 1 } else { y - 1 })
     }
 
     /// Moves the position downwards in the 3x3 grid with wrapping behavior.
-    pub fn down_wrap(self) -> Self {
+    pub const fn down_wrap(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(x, if y == 1 { -1 } else { y + 1 })
     }
 
     /// Moves the position leftwards in the 3x3 grid with wrapping behavior.
-    pub fn left_wrap(self) -> Self {
+    pub const fn left_wrap(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(if x == -1 { 1 } else { x - 1 }, y)
     }
 
     /// Moves the position rightwards in the 3x3 grid with wrapping behavior.
-    pub fn right_wrap(self) -> Self {
+    pub const fn right_wrap(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(if x == 1 { -1 } else { x + 1 }, y)
     }
@@ -138,7 +138,7 @@ impl Balance {
     /// let balance = Balance::Center;
     /// assert_eq!(balance.flip_h(), Balance::Center);
     /// ```
-    pub fn flip_h(self) -> Self {
+    pub const fn flip_h(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(-x, y)
     }
@@ -163,7 +163,7 @@ impl Balance {
     /// let balance = Balance::Center;
     /// assert_eq!(balance.flip_v(), Balance::Center);
     /// ```
-    pub fn flip_v(self) -> Self {
+    pub const fn flip_v(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(x, -y)
     }
@@ -191,7 +191,7 @@ impl Balance {
     /// let balance = Balance::Top;
     /// assert_eq!(balance.rotate_left(), Balance::Left);
     /// ```
-    pub fn rotate_left(self) -> Self {
+    pub const fn rotate_left(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(y, -x)
     }
@@ -219,7 +219,7 @@ impl Balance {
     /// let balance = Balance::Right;
     /// assert_eq!(balance.rotate_right(), Balance::Bottom);
     /// ```
-    pub fn rotate_right(self) -> Self {
+    pub const fn rotate_right(self) -> Self {
         let (x, y) = self.to_vector();
         Self::from_vector(-y, x)
     }
@@ -242,7 +242,7 @@ impl Balance {
     /// let balance = Balance::BottomLeft;
     /// assert_eq!(balance.center_h(), Balance::Bottom);
     /// ```
-    pub fn center_h(self) -> Self {
+    pub const fn center_h(self) -> Self {
         let (_, y) = self.to_vector();
         Self::from_vector(0, y)
     }
@@ -265,7 +265,7 @@ impl Balance {
     /// let balance = Balance::TopRight;
     /// assert_eq!(balance.center_v(), Balance::Right);
     /// ```
-    pub fn center_v(self) -> Self {
+    pub const fn center_v(self) -> Self {
         let (x, _) = self.to_vector();
         Self::from_vector(x, 0)
     }
