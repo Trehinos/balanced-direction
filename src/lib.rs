@@ -65,4 +65,52 @@ mod tests {
             assert_eq!(a[i], b[i]);
         }
     }
+
+    mod readme_examples {
+        use alloc::vec;
+        use crate::{Balance, Path};
+        use balanced_ternary::Digit;
+
+        #[test]
+        fn example_usage() {
+            let position = Balance::TopLeft;
+            assert_eq!(position.to_vector(), (-1, -1));
+
+            let moved = position.right();
+            assert_eq!(moved, Balance::Top);
+
+            let rotated = moved.rotate_left();
+            assert_eq!(rotated, Balance::Left);
+            assert_eq!(rotated.to_angle(), Balance::WEST);
+        }
+
+        #[test]
+        fn path_example() {
+            let movements = vec![Balance::Top, Balance::Right, Balance::Bottom];
+            let path = Path::new(movements);
+
+            assert_eq!(path.len(), 3);
+            assert_eq!(path.to_vector(), (1, 0)); // Cumulative movement: right by 1
+
+            let movements = vec![Balance::Top, Balance::Top, Balance::Top, Balance::Bottom];
+            let path = Path::new(movements);
+            assert_eq!(path.to_vector(), (0, -2)); // Cumulative movement: top by 2
+            let normalized_path = path.normalized();
+            assert_eq!(normalized_path.to_vector(), (0, -2));
+            assert_eq!(normalized_path.len(), 2);
+        }
+
+        #[test]
+        fn ternary_example() {
+            let position = Balance::Top;
+            let ternary_pair = position.to_ternary_pair();
+            assert_eq!(ternary_pair, (Digit::Zero, Digit::Neg)); // Top is represented as (0, -1)
+
+            let recreated_position = Balance::from_ternary_pair(Digit::Zero, Digit::Neg);
+            assert_eq!(recreated_position, Balance::Top);
+            let possibly = recreated_position.possibly();
+            assert_eq!(possibly, Balance::TopRight);
+        }
+
+    }
 }

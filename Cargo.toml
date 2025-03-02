@@ -5,7 +5,7 @@ authors = ["Sébastien GELDREICH <trehinos@gmail.com>"]
 version = "0.2.0"
 edition = "2021"
 license = "MIT"
-keywords = ["direction", "balanced", "base9", "multi-valued-logic"]
+keywords = ["direction", "balanced_ternary", "base9", "logic"]
 categories = ["data-structures", "mathematics", "science", "no-std", "graphics"]
 repository = "https://github.com/Trehinos/balanced-direction"
 

@@ -40,6 +40,7 @@ fn example_usage() {
 
     let rotated = moved.rotate_left();
     assert_eq!(rotated, Balance::Left);
+    assert_eq!(rotated.to_angle(), Balance::WEST);
 }
 ```
 
@@ -57,8 +58,12 @@ fn path_example() {
     assert_eq!(path.len(), 3);
     assert_eq!(path.to_vector(), (1, 0)); // Cumulative movement: right by 1
 
+    let movements = vec![Balance::Top, Balance::Top, Balance::Top, Balance::Bottom];
+    let path = Path::new(movements);
+    assert_eq!(path.to_vector(), (0, -2)); // Cumulative movement: top by 2
     let normalized_path = path.normalized();
-    assert_eq!(normalized_path.to_vector(), (1, 0)); // Same result after normalization
+    assert_eq!(normalized_path.to_vector(), (0, -2));
+    assert_eq!(normalized_path.len(), 2);
 }
 ```
 

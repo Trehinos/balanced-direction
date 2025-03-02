@@ -344,6 +344,50 @@ impl Balance {
         let (x, y) = self.to_ternary_pair();
         Self::from_ternary_pair(x.pre(), y.pre())
     }
+
+    /// Applies a transformation function `x` and another on `y` coordinates.
+    ///
+    /// This function allows you to provide two different transformation functions,
+    /// one for `x` (`op_x`) and another for `y` (`op_y`). These functions
+    /// process the coordinates independently, and the resulting transformed
+    /// `x` and `y` coordinates are combined into a new `Balance`.
+    ///
+    /// # Parameters
+    ///
+    /// - `op_x`: A function that transforms the `x` coordinate.
+    /// - `op_y`: A function that transforms the `y` coordinate.
+    ///
+    /// # Returns
+    ///
+    /// A new `Balance` object with the transformed `x` and `y` coordinates.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_ternary::Digit;
+    /// use balanced_direction::Balance;
+    ///
+    /// let balance = Balance::Center;
+    /// let transformed = balance.apply(Digit::not_negative, Digit::not_positive);
+    /// assert_eq!(transformed, Balance::TopRight);
+    /// ```
+    pub fn apply<FX, FY>(self, op_x: FX, op_y: FY) -> Self
+    where
+        FX: Fn(Digit) -> Digit,
+        FY: Fn(Digit) -> Digit,
+    {
+        let (x, y) = self.to_ternary_pair();
+        Self::from_ternary_pair(op_x(x), op_y(y))
+    }
+    /// Applies the given transformation on both `x` and `y`.
+    /// 
+    /// See [Balance::apply].
+    pub fn apply_both<F>(self, op: F) -> Self
+    where
+        F: Fn(Digit) -> Digit + Clone,
+    {
+        self.apply(op.clone(), op)
+    }
 }
 
 #[cfg(test)]
