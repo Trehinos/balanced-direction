@@ -133,9 +133,10 @@ Shorthands for `Digit` operations :
 
 ##### Binary operations
 
-Combines two `Balance`s into one (`add`, `mul`, `sub`, and with the `ternary` feature : `bitand`, `bitor`, `bitxor`).
+Combines two `Balance`s into one (`add`, `mul`, `sub`, and with the `ternary` feature : `bitand`, `bitor`, `bitxor`, `k3_imply`, `ht_imply`).
 
 ![Binary operations](binary-ops.png)
+![Imply operations](imply-ops.png)
 
 ### `Path`
 
