@@ -11,6 +11,6 @@ dependencies = [
 
 [[package]]
 name = "balanced-ternary"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7be2ce9868c5f1cfecd6df273bf065e0addf330d979d358731ac442fafda9217"
+checksum = "96caebe0a042784c8cc560f96e0add6b0f09613511b39bdcd50ee3bbc8a10ae0"
