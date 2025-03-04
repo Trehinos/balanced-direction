@@ -174,4 +174,47 @@ impl Balance {
             Balance::TopLeft | Balance::TopRight | Balance::BottomLeft | Balance::BottomRight
         )
     }
+
+
+    /// Converts the current `Balance` position into a symbol representation.
+    ///
+    /// # Returns
+    ///
+    /// A `&'static str` that visually represents the position using an emoji.
+    /// Each position in the 3x3 grid is mapped to a unique symbol:
+    ///
+    /// - `TopLeft`: "↖️"
+    /// - `Top`: "⬆️"
+    /// - `TopRight`: "↗️"
+    /// - `Left`: "⬅️"
+    /// - `Center`: "⏺️"
+    /// - `Right`: "➡️"
+    /// - `BottomLeft`: "↙️"
+    /// - `Bottom`: "⬇️"
+    /// - `BottomRight`: "↘️"
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use balanced_direction::Balance;
+    ///
+    /// let position = Balance::Top;
+    /// assert_eq!(position.to_symbol(), "⬆️");
+    ///
+    /// let position = Balance::Center;
+    /// assert_eq!(position.to_symbol(), "⏺️");
+    /// ```
+    pub const fn to_symbol(self) -> &'static str {
+        match self {
+            Balance::TopLeft => "↖️",
+            Balance::Top => "⬆️",
+            Balance::TopRight => "↗️",
+            Balance::Left => "⬅️",
+            Balance::Center => "⏺️",
+            Balance::Right => "➡️",
+            Balance::BottomLeft => "↙️",
+            Balance::Bottom => "⬇️",
+            Balance::BottomRight => "↘️",
+        }
+    }
 }
